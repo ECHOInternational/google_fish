@@ -6,9 +6,19 @@ class GoogleFish
     @format = :text
   end
 
-  def translate(source, target, q, options={})
+  # Main function of translation
+  #
+  # Es:
+  #   translate(:en, "Hola", :source => :es)
+  #
+  # options:
+  #   :html => true
+  #   :source => :en
+  #
+  def translate(target, q, options={})
     @format = :html if options[:html]
-    @source, @target, @q = source, target, q
+    @source = options.delete(:source)
+    @target, @q = target, q
     @translated_text = request_translation
   end
 
@@ -38,8 +48,12 @@ class GoogleFish::Request
   private
 
   def query_values
-    {:key => query.key, :q => query.q, :format => query.format,
-      :source => query.source, :target => query.target}
+    v = { :key => query.key,
+          :q => query.q,
+          :format => query.format,
+          :target => query.target }
+    v.merge!(:source => query.source) if query.source
+    return v
   end
 
   def uri
@@ -64,8 +78,10 @@ class GoogleFish::Request
 
   def parse
     body = JSON.parse(response)
-    body["data"]["translations"].first["translatedText"]
+    text = body["data"]["translations"].first["translatedText"]
+    lang = body["data"]["translations"].first["detectedSourceLanguage"]
+    return { :text => text, :lang => lang }
   end
 end
 
-class GoogleFish::Request::ApiError < Exception;end;
+class GoogleFish::Request::ApiError < Exception; end
