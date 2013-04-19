@@ -72,7 +72,7 @@ class GoogleFish::Request
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     req = Net::HTTP::Get.new(uri.request_uri)
     res = http.request(req)
-    raise GoogleFish::Request::ApiError unless res.code.to_i == 200
+    raise GoogleFish::Request::ApiError, res.body unless res.code.to_i == 200
     res.body
   end
 
