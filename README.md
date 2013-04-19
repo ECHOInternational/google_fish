@@ -10,10 +10,10 @@ Getting started
 You'll also need an API key from here [ http://code.google.com/apis/language/translate/v2/getting_started.html](http://code.google.com/apis/language/translate/v2/getting_started.html)
 
     google = GoogleFish.new('my-api-key')
-    google.translate(:en, :es, 'hi')
-    # => 'hola'
-    google.translate(:en, :es, '<p>hi</p>', :html => true)
-    # => '<p> hola </p>'
+    google.translate(:es, 'hi', source: :en)
+    # => { text: 'hola', lang: "es" }
+    google.translate(:es, '<p>hi</p>', html: true)
+    # => { text: '<p> hola </p>', lang: "es"}
 
 
 Contributing to google_fish
