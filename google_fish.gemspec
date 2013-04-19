@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "google_fish"
-  s.version = "0.2.2"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["seenmyfate"]
-  s.date = "2011-09-14"
+  s.date = "2013-04-19"
   s.description = "A tiny gem that makes using Google Translate v2 API trivial"
   s.email = "seenmyfate@gmail.com"
   s.extra_rdoc_files = [
