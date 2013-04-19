@@ -1,6 +1,7 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
+
 gem 'addressable'
-gem 'json'
+gem 'multi_json'
 
 group :development do
   gem "rspec"

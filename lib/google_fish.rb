@@ -31,9 +31,11 @@ class GoogleFish
 end
 
 class GoogleFish::Request
+
   require 'net/https'
   require 'addressable/uri'
-  require 'json'
+  require 'multi_json'
+
   attr_accessor :query, :response, :parsed_response
 
   def initialize(query)
@@ -72,15 +74,21 @@ class GoogleFish::Request
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     req = Net::HTTP::Get.new(uri.request_uri)
     res = http.request(req)
-    raise GoogleFish::Request::ApiError, res.body unless res.code.to_i == 200
+    #raise GoogleFish::Request::ApiError, res.body unless res.code.to_i == 200
     res.body
   end
 
   def parse
-    body = JSON.parse(response)
-    text = body["data"]["translations"].first["translatedText"]
-    lang = body["data"]["translations"].first["detectedSourceLanguage"]
-    return { :text => text, :lang => lang }
+    body = MultiJson.load(response)
+    if body.has_key?("error")
+      raise GoogleFish::Request::ApiError, { code: body["error"]["code"], message: body["error"]["message"] }
+    elsif body.has_key?("data")
+      text = body["data"]["translations"].first["translatedText"]
+      lang = body["data"]["translations"].first["detectedSourceLanguage"]
+      return { :text => text, :lang => lang }
+    else
+      raise GoogleFish::Request::ApiError, "Unknown error"
+    end
   end
 end
 
