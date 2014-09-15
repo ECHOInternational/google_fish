@@ -51,7 +51,7 @@ class GoogleFish::Request
 
   def query_values
     v = { :key => query.key,
-          :q => query.q,
+          #:q => query.q,
           :format => query.format,
           :target => query.target }
     v.merge!(:source => query.source) if query.source
@@ -83,7 +83,7 @@ class GoogleFish::Request
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     req = Net::HTTP::Post.new(uri.request_uri, initheader = {'X-HTTP-Method-Override' => 'GET'})
-    req.set_form_data('q' => query_values[:q])
+    req.set_form_data('q' => query.q)
     res = http.request(req)
     #raise GoogleFish::Request::ApiError, res.body unless res.code.to_i == 200
     res.body
