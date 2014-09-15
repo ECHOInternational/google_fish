@@ -43,7 +43,7 @@ class GoogleFish::Request
   end
 
   def perform_translation
-    @response = get
+    @response = post
     @parsed_response = parse
   end
 
