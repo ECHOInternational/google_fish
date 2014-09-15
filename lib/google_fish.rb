@@ -78,6 +78,17 @@ class GoogleFish::Request
     res.body
   end
 
+  def post
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    req = Net::HTTP::Post.new(uri.request_uri, initheader = {'X-HTTP-Method-Override' => 'GET'})
+    req.set_form_data('q' => query_values[:q])
+    res = http.request(req)
+    #raise GoogleFish::Request::ApiError, res.body unless res.code.to_i == 200
+    res.body
+  end
+
   def parse
     body = MultiJson.load(response)
     if body.has_key?("error")
