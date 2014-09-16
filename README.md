@@ -1,4 +1,6 @@
-# google_fish [![Build Status](https://travis-ci.org/onthebeach/google_fish.png?branch=master)](http://travis-ci.org/onthebeach/google_fish) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/onthebeach/google_fish)
+THIS FORK USES THE POST METHOD IN THE API
+
+Using the post method allows longer strings of text to be translated. This is a fork of Fashionbi's fork of the original project and includes their improvements to error handling.
 
 A tiny gem that makes using Google Translate v2 API trivial.
 
